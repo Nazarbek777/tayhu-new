@@ -125,6 +125,7 @@
                             <div class="contact-info">
                                 <h6><x-translation key="email" /></h6>
                                 <p><i class="fa fa-envelope"></i> <a href="mailto:spektrstar@tayhu.uz">{{$site->email_1}}</a></p>
+                                <p><i class="fa fa-envelope"></i> <a href="mailto:spektrstar@tayhu.uz">{{$site->email_2}}</a></p>
 
                             </div>
                         </div>

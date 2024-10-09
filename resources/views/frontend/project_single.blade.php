@@ -24,25 +24,25 @@
         </div>
         <div class="row">
             <div class="col-lg-7 col-md-7 col-sm-12 wow fadeInLeft" data-wow-delay="0.2s">
-                <img src="/assets/images/single-project-1.jpg" alt="image">
-                <div class="row">
+                <img src="{{ asset('storage/' . str_replace('\\', '/', $project->images_array[0])) }}" alt="Showroom Image" class="w-100 h-auto">
+                <div class="row mt-2">
+                    @foreach($project->images_array as $index => $image)
                     <div class="col-lg-6 col-md-6">
-                        <img src="/assets/images/single-project-2.jpg" alt="image">
+                        <img src="{{ asset('storage/' . str_replace('\\', '/', $image)) }}" alt="Showroom Image">
+
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <img src="/assets/images/single-project-3.jpg" alt="image">
-                    </div>
+                    @endforeach
                 </div>
                 <p><x-translation key="long_construction_text" /></p>
                 <br>
-                <p><x-translation key="web_host_text" /> </p>
+                <p>{!! $project->getTranslatedAttribute('content', app()->getLocale()) !!} </p>
                 <h3><x-translation key="project_features" /></h3>
                 <ul class="content-listing">
-                    <li><i class="fa fa-caret-right"></i>Project management</li>
-                    <li><i class="fa fa-caret-right"></i>Safety</li>
-                    <li><i class="fa fa-caret-right"></i>Skilled labor</li>
-                    <li><i class="fa fa-caret-right"></i>Heavy machinery</li>
-                    <li><i class="fa fa-caret-right"></i>Quality control</li>
+                    <li><i class="fa fa-caret-right"></i>{!! $project->getTranslatedAttribute('featured_1', app()->getLocale()) !!}</li>
+                    <li><i class="fa fa-caret-right"></i>{!! $project->getTranslatedAttribute('featured_2', app()->getLocale()) !!}</li>
+                    <li><i class="fa fa-caret-right"></i>{!! $project->getTranslatedAttribute('featured_3', app()->getLocale()) !!}</li>
+                    <li><i class="fa fa-caret-right"></i>{!! $project->getTranslatedAttribute('featured_4', app()->getLocale()) !!}</li>
+                    <li><i class="fa fa-caret-right"></i>{!! $project->getTranslatedAttribute('featured_5', app()->getLocale()) !!}</li>
                 </ul>
 
             </div>
@@ -58,11 +58,11 @@
                     </div>
                     <div class="price-body">
                         <ul class="single-project-list">
-                            <li><span>Client:</span>Building Construction</li>
-                            <li><span>Location:</span>West Wood Street USA</li>
-                            <li><span>Surface Area:</span>40,000 m2</li>
-                            <li><span>Year Completed:</span>2020</li>
-                            <li><span>Architect:</span>William &amp; H.</li>
+                            <li><span><x-translation key="client" />:</span>{!! $project->getTranslatedAttribute('client', app()->getLocale()) !!}</li>
+                            <li><span><x-translation key="address" /></span>{!! $project->getTranslatedAttribute('location', app()->getLocale()) !!}</li>
+                            <li><span><x-translation key="surface_area" />:</span>{!! $project->getTranslatedAttribute('surface_area', app()->getLocale()) !!}</li>
+                            <li><span><x-translation key="year_completed" />:</span>{{$project->year_completed}}</li>
+                            <li><span><x-translation key="arxitektor" />:</span>{!! $project->getTranslatedAttribute('architect', app()->getLocale()) !!}</li>
                         </ul>
                     </div>
 

@@ -337,7 +337,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
                 <h2><x-translation key="help_link" /></h2>
                 <h5><x-translation key="help_text" /></h5>
-                <h2><a href="tel:+998712236508">+998 71 223 65 08</a></h2>
+                <h2><a href="tel:+998712236508">{{$site->phone_1}}</a></h2>
 
                 <div class="mt-20"><a class="theme-button-dark" #"><span
                             class="plus">+</span><x-translation key="help_link" /><span></span></a></div>
@@ -388,21 +388,20 @@
             <div class="col-lg-12 col-md-12">
                 <div id="testimonial-slide" class="owl-carousel owl-theme owl-loaded owl-drag">
                     <!-- testimonials item -->
+                    @foreach($testimonials as $item)
                     <div class="single-testimonial">
                         <div class="testi-content-inner">
                             <div class="testimonial-bio">
                                 <div class="avatar">
-                                    <img src="assets/images/clients/testimonial-2.jpg" alt="testimonial">
+                                    <img src="{{ asset('storage/' . str_replace('\\', '/', $item->image)) }}" alt="testimonial">
                                 </div>
                             </div>
                             <div class="testimonial-content">
-                                <p>Thank you very much. Very Awesome Template. I’m impressed with your service. I’ve
-                                    already told my friends about your template and your quick response, thanks
-                                    again!</p>
+                                <p>{!! $item->getTranslatedAttribute('content', app()->getLocale()) !!}</p>
                             </div>
                             <div class="testimonial-bio">
                                 <div class="bio-info">
-                                    <h3 class="name">Elizabeth Will</h3>
+                                    <h3 class="name">{!! $item->getTranslatedAttribute('name', app()->getLocale()) !!}</h3>
                                 </div>
                             </div>
                             <div class="rating-box">
@@ -416,64 +415,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- testimonials item -->
-                    <div class="single-testimonial">
-                        <div class="testi-content-inner">
-                            <div class="testimonial-bio">
-                                <div class="avatar">
-                                    <img src="assets/images/clients/testimonial-3.jpg" alt="testimonial">
-                                </div>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Great Support, I would just like to say thank you for your prompt and effective
-                                    service, for your friendly and professional support staff! I will recommend your
-                                    expert company to all my friends.</p>
-                            </div>
-                            <div class="testimonial-bio">
-                                <div class="bio-info">
-                                    <h3 class="name">William Hoy</h3>
-                                </div>
-                            </div>
-                            <div class="rating-box">
-                                <ul>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- testimonials item -->
-                    <div class="single-testimonial">
-                        <div class="testi-content-inner">
-                            <div class="testimonial-bio">
-                                <div class="avatar">
-                                    <img src="assets/images/clients/testimonial-4.jpg" alt="testimonial">
-                                </div>
-                            </div>
-                            <div class="testimonial-content">
-                                <p>Wow Very Nice Team, I'm so happy with your service. You managed to exceed my
-                                    expectations! You guys are very efficient and I will refer more people and my
-                                    social media to your company!</p>
-                            </div>
-                            <div class="testimonial-bio">
-                                <div class="bio-info">
-                                    <h3 class="name">Sara William</h3>
-                                </div>
-                            </div>
-                            <div class="rating-box">
-                                <ul>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+                
                 </div>
             </div>
         </div>
@@ -535,7 +478,7 @@
 
             <div class="col-md-12">
                 <div class="blog-more-btn text-center mt-15">
-                    <a class="theme-button-dark" #"><span class="plus">+</span><x-translation key="view_blogs_link" /><span></span></a>
+                    <a class="theme-button-dark" href="{{route('blog')}}"><span class="plus">+</span><x-translation key="view_blogs_link" /><span></span></a>
                 </div>
             </div>
         </div>

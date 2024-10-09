@@ -48,11 +48,6 @@
             @endforeach
 
 
-            <div class="col-md-12">
-                <div class="blog-more-btn text-center mt-15">
-                    <a class="theme-button-light" href="{{ route('blog')}}"><x-translation key="view_more_blog" /><span></span></a>
-                </div>
-            </div>
 
             <!-- Pagination Starts -->
             <div class="col-12 mt-4">

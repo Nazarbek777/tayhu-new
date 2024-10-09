@@ -17,43 +17,50 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
-                    <div class="tp-product-details-thumb-wrapper tp-tab">
-                        <div class="tab-content m-img" id="productDetailsNavContent">
-                            @php
-                            $images = json_decode($singleProduct->images);
-                            @endphp
+                    <div class="tab-content m-img" id="productDetailsNavContent">
+                        @php
+                        $images = json_decode($singleProduct->images);
+                        @endphp
+                        @if($images)
+                        @foreach($images as $index => $image)
+                        <div class="tab-pane fade @if($index == 0) active show @endif" id="nav-{{ $index + 1 }}" role="tabpanel" aria-labelledby="nav-{{ $index + 1 }}-tab" tabindex="0">
+                            <div class="tp-product-details-nav-main-thumb">
+                                <img id="mainImage" src="{{ asset('storage/' . str_replace('\\', '/', $images[0])) }}" alt="image">
+                            </div>
+                        </div>
+                        @endforeach
+                        @else
+                        <span>Not Found</span>
+                        @endif
+                    </div>
+                    <nav>
+                        @php
+                        // JSON satrini massivga aylantirish
+                        $images = json_decode($singleProduct->images);
+                        @endphp
+
+                        <div class="nav nav-tabs d-flex justify-content-center justify-content-lg-start" id="productDetailsNavThumb" role="tablist" style="border: 0px;">
                             @if($images)
                             @foreach($images as $index => $image)
-                            <div class="tab-pane fade @if($index == 0) active show @endif" id="nav-{{ $index + 1 }}" role="tabpanel" aria-labelledby="nav-{{ $index + 1 }}-tab" tabindex="0">
-                                <div class="tp-product-details-nav-main-thumb">
-                                    <img src="{{ asset('storage/' . str_replace('\\', '/', $image)) }}" alt="image">
-                                </div>
-                            </div>
+                            <button class="nav-link @if($index == 0) active @endif"
+                                id="nav-{{ $index + 1 }}-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#nav-{{ $index + 1 }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="nav-{{ $index + 1 }}"
+                                aria-selected="{{ $index == 0 ? 'true' : 'false' }}"
+                                onclick="document.getElementById('mainImage').src = '{{ asset('storage/' . str_replace('\\', '/', $image)) }}'">
+                                <img width="100px" height="100px" src="{{ asset('storage/' . str_replace('\\', '/', $image)) }}" style="object-fit: cover; border:0px;" alt="image">
+                            </button>
                             @endforeach
                             @else
                             <span>Not Found</span>
                             @endif
                         </div>
-                        <nav>
-                            @php
-                            // JSON satrini massivga aylantirish
-                            $images = json_decode($singleProduct->images);
-                            @endphp
+                    </nav>
 
-                            <div class="nav nav-tabs d-flex justify-content-center justify-content-lg-start" id="productDetailsNavThumb" role="tablist">
-                                @if($images)
-                                @foreach($images as $index => $image)
-                                <button class="nav-link @if($index == 0) active @endif" id="nav-{{ $index + 1 }}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ $index + 1 }}" type="button" role="tab" aria-controls="nav-{{ $index + 1 }}" aria-selected="{{ $index == 0 ? 'true' : 'false' }}">
-                                    <img src="{{ asset('storage/' . str_replace('\\', '/', $image)) }}" style="object-fit: cover;" alt="image">
-                                </button>
-                                @endforeach
-                                @else
-                                <span>Not Found</span>
-                                @endif
-                            </div>
 
-                        </nav>
-                    </div>
                 </div>
                 <!-- col end -->
                 <div class="col-xl-6 col-lg-6">
@@ -126,4 +133,5 @@
         </div>
     </div>
 </div>
+
 @endsection

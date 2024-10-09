@@ -13,9 +13,11 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProjectCategory;
 use App\Models\Showroom;
+use App\Models\Size;
 use App\Models\Team;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
-
+use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class MainController extends Controller
 {
@@ -23,7 +25,8 @@ class MainController extends Controller
     {
         $projects = OurProject::with('category')->get();
         $teams = Team::all();
-        $blogs = Blog::all();
+        $blogs = Blog::orderBy('id', 'desc')->take(3)->get();
+        $testimonials = Testimonial::all();
         $partners = Partner::all();
         $construction = OurProject::whereHas('category', function ($query) {
             $query->where('name', 'Construction');
@@ -45,7 +48,7 @@ class MainController extends Controller
         $intoFuture = IntoFuture::first();
 
         // Return the view with the data
-        return view('frontend.index', compact('banners', 'teams', 'blogs', 'intoFuture', 'projects', 'partners', 'construction', 'building', 'architect', 'electrical'));
+        return view('frontend.index', compact('banners', 'teams', 'testimonials', 'blogs', 'intoFuture', 'projects', 'partners', 'construction', 'building', 'architect', 'electrical'));
     }
     public function about()
     {
@@ -92,46 +95,50 @@ class MainController extends Controller
         $teams = Team::all();
         return view('frontend.team', compact('teams'));
     }
-    public function service($id)
+    public function service(Request $request, $id = null)
     {
-        $products = Product::where('category_id', $id)->paginate(10);
-        $categories = ProductCategory::withCount('products')->get();
-
-        return view('frontend.service', compact('products', 'categories'));
-    }
-    public function serviceSearch(Request $request)
-    {
-        $categories = ProductCategory::withCount('products')->get();
+        // Initialize the query builder for products
         $query = Product::query();
 
+        // Apply category filter if $id is provided
+        if ($id) {
+            $query->where('category_id', $id);
+        }
+
+        // Apply size filter if 'size' is present in the request
+        if ($request->has('size')) {
+            $query->where('size_id', $request->get('size'));
+        }
         $query->when($request->has('query'), function ($query) use ($request) {
             $searchTerm = $request->input('query');
             $query->where('name', 'LIKE', '%' . $searchTerm . '%')
                 ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
         });
-        dd($request->input('filter'));
-
-        $query->when($request->has('filter'), function ($query) use ($request) {
+        if ($request->has('filter')) {
             switch ($request->input('filter')) {
                 case 'recent':
                     $query->orderBy('created_at', 'desc');
                     break;
-                case 'low_to_high':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'high_to_low':
-                    $query->orderBy('price', 'desc');
-                    break;
                 case 'new_added':
                     $query->orderBy('updated_at', 'desc');
                     break;
+                default:
+                    break;
             }
-        });
+        }
 
+        // Get the paginated products
         $products = $query->paginate(10);
-        return view('frontend.service', compact('products', 'categories'));
-    }
 
+        // Fetch categories with product count
+        $categories = ProductCategory::withCount('products')->get();
+
+        // Fetch all sizes
+        $sizes = Size::all();
+
+        // Return the view with products, categories, and sizes
+        return view('frontend.service', compact('products', 'categories', 'sizes'));
+    }
 
 
 
@@ -168,6 +175,7 @@ class MainController extends Controller
     }
     public function projectSingle($id)
     {
-        return view('frontend.project_single');
+        $project = OurProject::find($id);
+        return view('frontend.project_single', compact('project'));
     }
 }
