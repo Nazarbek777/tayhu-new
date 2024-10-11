@@ -121,6 +121,8 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="single-services-item">
                         <div class="services-heading">
+                            {{app()->getLocale())}}
+                            {!! $intoFuture->getTranslatedAttribute('title', app()->getLocale()) !!}
                             <h2>{!! $intoFuture->getTranslatedAttribute('title', app()->getLocale()) !!}</h2>
                             <p>{!! $intoFuture->getTranslatedAttribute('content', app()->getLocale()) !!}</p>
                             <br>
@@ -416,7 +418,7 @@
                         </div>
                     </div>
                     @endforeach
-                
+
                 </div>
             </div>
         </div>

@@ -49,7 +49,6 @@
                                     </ul>
                                 </div>
                             @endif
-
                             <!-- Adding / Editing -->
                             @php
                                 $dataTypeRows = $dataType->{($edit ? 'editRows' : 'addRows' )};
